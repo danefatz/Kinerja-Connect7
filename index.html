@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Komunikasi Kinerja — panduan sederhana tentang pemberian umpan balik yang baik.">
+  <title>Komunikasi Kinerja | Umpan Balik yang Baik</title>
+
+  <style>
+    /* =========================
+       RESET & ACCESSIBILITY
+       ========================= */
+    :root {
+      --navy: #123a60;
+      --navy-2: #0d2d4b;
+      --ink: #203b4d;
+      --muted: #617480;
+      --green: #2f8b68;
+      --green-dark: #216a50;
+      --mint: #dff5e9;
+      --sky: #eaf7fc;
+      --sky-2: #dff3fa;
+      --white: #ffffff;
+      --border: #dfe9ee;
+      --shadow: 0 12px 32px rgba(24, 57, 78, .10);
+      --radius: 20px;
+      --max: 1120px;
+      --focus: #f1a72b;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 78px;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    img { max-width: 100%; }
+
+    a { color: inherit; }
+
+    button, textarea { font: inherit; }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .container {
+      width: min(var(--max), 92%);
+      margin-inline: auto;
+    }
+
+    .skip-link {
+      position: fixed;
+      left: 16px;
+      top: -80px;
+      z-index: 100;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--navy);
+      color: white;
+      font-weight: 800;
+      transition: top .2s ease;
+    }
+
+    .skip-link:focus { top: 12px; }
+
+    /* =========================
+       NAVBAR
+       ========================= */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 850;
+      color: #24465c;
+      letter-spacing: -.01em;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: white;
+      background: var(--navy);
+      font-size: 13px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: #657783;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .nav-links a:hover { color: var(--green-dark); }
+
+    /* =========================
+       HERO
+       ========================= */
+    .hero {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,.95) 0 2px, transparent 2.5px) 0 0 / 26px 26px,
+        linear-gradient(135deg, var(--sky) 0%, var(--sky-2) 55%, #eefaf7 100%);
+    }
+
+    .hero-grid {
+      min-height: 420px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 58px;
+      padding: 56px 0 70px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 15px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      background: var(--mint);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    h1, h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      letter-spacing: -.025em;
+    }
+
+    h1 {
+      max-width: 620px;
+      margin: 0 0 16px;
+      color: #1b394d;
+      font-size: clamp(2.25rem, 4vw, 3.15rem);
+      line-height: 1.08;
+    }
+
+    .hero-copy {
+      max-width: 590px;
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .icon-button {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--green);
+      color: white;
+      cursor: pointer;
+      font-size: 20px;
+      box-shadow: 0 8px 18px rgba(47,139,104,.20);
+    }
+
+    .hero-visual { position: relative; }
+
+    .hero-photo {
+      height: 292px;
+      overflow: hidden;
+      border-radius: 24px;
+      background: #d9e2e7;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-note {
+      position: absolute;
+      right: -18px;
+      bottom: -25px;
+      width: min(280px, 72%);
+      padding: 15px 17px;
+      border-radius: 15px;
+      background: white;
+      box-shadow: 0 12px 30px rgba(0,0,0,.13);
+      color: #61727c;
+      font-size: 12px;
+    }
+
+    .hero-note strong {
+      display: block;
+      color: #29495b;
+      margin-bottom: 3px;
+    }
+
+    .check {
+      float: left;
+      display: grid;
+      place-items: center;
+      width: 27px;
+      height: 27px;
+      margin: 1px 9px 0 0;
+      border-radius: 50%;
+      background: var(--mint);
+      color: var(--green-dark);
+      font-weight: 900;
+    }
+
+    /* =========================
+       COMMON SECTIONS
+       ========================= */
+    section { padding: 90px 0; }
+
+    .section-label {
+      margin-bottom: 8px;
+      color: #4c9c7b;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin: 0 0 14px;
+      color: #25455a;
+      font-size: clamp(1.9rem, 3.5vw, 2.35rem);
+      line-height: 1.18;
+    }
+
+    .section-lead {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* =========================
+       WHY
+       ========================= */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 38px;
+    }
+
+    .card {
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: white;
+      box-shadow: 0 8px 22px rgba(24,57,78,.045);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 17px;
+      border-radius: 12px;
+      background: var(--mint);
+      color: var(--green-dark);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: #29485a;
+      font-size: 17px;
+    }
+
+    .card p {
+      margin: 0;
+      color: #71818b;
+      font-size: 14px;
+    }
+
+    /* =========================
+       PRINCIPLES
+       ========================= */
+    .principles { background: var(--sky); }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.25fr;
+      gap: 55px;
+      align-items: start;
+      margin-top: 38px;
+    }
+
+    .principle-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .principle {
+      display: flex;
+      gap: 15px;
+      padding: 20px;
+      border: 1px solid #dce9ef;
+      border-radius: 16px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .number {
+      flex: 0 0 35px;
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #d8f0e5;
+      color: var(--green-dark);
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .principle h3 {
+      margin: 0 0 4px;
+      font-size: 15px;
+    }
+
+    .principle p {
+      margin: 0;
+      color: #70818b;
+      font-size: 13px;
+    }
+
+    /* =========================
+       HELPFUL
+       ========================= */
+    .helpful-content {
+      max-width: 880px;
+      margin-top: 35px;
+    }
+
+    .quote {
+      margin: 0 0 22px;
+      padding: 21px 25px;
+      border-left: 4px solid #59a986;
+      border-radius: 0 14px 14px 0;
+      background: #f4faf7;
+      color: #506b78;
+      font-size: 15px;
+    }
+
+    .do-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .do-card {
+      padding: 21px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+    }
+
+    .do-card h3 {
+      margin: 0 0 7px;
+      font-size: 14px;
+    }
+
+    .do-card p {
+      margin: 0;
+      color: #75858e;
+      font-size: 13px;
+    }
+
+    /* =========================
+       PRACTICE
+       ========================= */
+    .practice {
+      color: white;
+      background: var(--navy);
+    }
+
+    .practice .section-label { color: #8bd0b1; }
+    .practice .section-title { color: white; }
+    .practice .section-lead { color: #c4d5df; }
+
+    .practice-box {
+      max-width: 900px;
+      margin: 35px auto 0;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 19px;
+      background: rgba(255,255,255,.055);
+    }
+
+    .practice-box label {
+      display: block;
+      margin-bottom: 8px;
+      color: #d1e0e8;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 145px;
+      padding: 15px;
+      resize: vertical;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 12px;
+      background: rgba(255,255,255,.08);
+      color: white;
+    }
+
+    textarea::placeholder { color: #aec0cb; }
+
+    .primary-button {
+      padding: 11px 18px;
+      border: 0;
+      border-radius: 10px;
+      background: #56a883;
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .primary-button:hover { background: #438e6d; }
+
+    #result {
+      margin: 15px 0 0;
+      color: #cde5d9;
+      font-size: 13px;
+    }
+
+    /* =========================
+       CTA & FOOTER
+       ========================= */
+    .cta {
+      padding: 70px 0;
+      text-align: center;
+      background: var(--mint);
+    }
+
+    .cta h2 {
+      margin: 0 0 9px;
+      color: #285247;
+      font-size: clamp(1.65rem, 3vw, 2rem);
+    }
+
+    .cta p {
+      margin: 0;
+      color: #607b70;
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 23px;
+      text-align: center;
+      background: var(--navy-2);
+      color: #bfd0da;
+      font-size: 12px;
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+    @media (max-width: 850px) {
+      .nav { min-height: 66px; }
+      .nav-links { gap: 15px; }
+      .hero-grid,
+      .principles-grid { grid-template-columns: 1fr; }
+
+      .hero-grid {
+        gap: 36px;
+        padding: 52px 0 72px;
+      }
+
+      .hero-photo { height: 280px; }
+      .why-grid { grid-template-columns: 1fr; }
+      section { padding: 72px 0; }
+    }
+
+    @media (max-width: 560px) {
+      .nav-links { display: none; }
+      h1 { font-size: 2.2rem; }
+      .hero-copy { font-size: 15px; }
+      .hero-photo { height: 235px; }
+      .hero-note {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: 90%;
+        margin: -8px auto 0;
+      }
+      .do-grid { grid-template-columns: 1fr; }
+      .practice-box { padding: 21px; }
+    }
+
+    /* Pengguna yang memilih reduced motion tetap nyaman. */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#beranda" aria-label="Komunikasi Kinerja - Beranda">
+        <span class="brand-mark" aria-hidden="true">▣</span>
+        <span>Komunikasi Kinerja</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigasi utama">
+        <a href="#beranda">Beranda</a>
+        <a href="#mengapa">Mengapa Penting</a>
+        <a href="#prinsip">Prinsip</a>
+        <a href="#praktik">Praktik</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="beranda">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Percakapan yang mendorong perkembangan</span>
+          <h1>Umpan Balik yang Baik Dimulai dari Komunikasi</h1>
+          <p class="hero-copy">
+            Komunikasi yang terbuka mengubah evaluasi menjadi percakapan untuk
+            berkembang—bukan sekadar penilaian atas apa yang sudah terjadi.
+          </p>
+          <button class="icon-button" type="button"
+                  aria-label="Lihat mengapa komunikasi penting"
+                  onclick="document.querySelector('#mengapa').scrollIntoView({behavior:'smooth'})">
+            ↓
+          </button>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-photo">
+            <img src="assets/meeting.jpg"
+                 alt="Dua rekan kerja sedang melakukan percakapan umpan balik">
+          </div>
+
+          <div class="hero-note">
+            <span class="check" aria-hidden="true">✓</span>
+            <strong>Umpan balik penting</strong>
+            Bermakna memberi penjelasan sekaligus menjaga rasa saling menghargai.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mengapa">
+      <div class="container">
+        <div class="section-label">Mengapa komunikasi penting</div>
+        <h2 class="section-title">Komunikasi membuat umpan balik lebih mudah diterima</h2>
+        <p class="section-lead">
+          Umpan balik yang disampaikan dengan jelas dan terbuka membantu seseorang
+          memahami apa yang perlu dipertahankan dan apa yang perlu dikembangkan.
+        </p>
+
+        <div class="why-grid">
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">01</div>
+            <h3>Membangun kepercayaan</h3>
+            <p>Komunikasi terbuka membuat proses evaluasi terasa lebih aman, jujur, dan saling menghargai.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">02</div>
+            <h3>Memperjelas harapan</h3>
+            <p>Pesan yang spesifik membantu penerima memahami standar, tujuan, dan prioritas kerja.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">03</div>
+            <h3>Mendorong perkembangan</h3>
+            <p>Umpan balik menjadi dasar untuk memperbaiki kinerja dan mengembangkan potensi.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles" id="prinsip">
+      <div class="container">
+        <div class="section-label">Prinsip komunikasi</div>
+        <h2 class="section-title">Prinsip Umpan Balik yang Efektif</h2>
+        <p class="section-lead">
+          Sampaikan umpan balik dengan fokus pada perilaku, dampak, dan langkah perbaikan.
+        </p>
+
+        <div class="principles-grid">
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">💬</div>
+            <h3>Fokus pada perkembangan</h3>
+            <p>
+              Tujuan utamanya bukan menyalahkan, tetapi membantu seseorang tumbuh
+              dan bekerja lebih baik.
+            </p>
+          </article>
+
+          <div class="principle-list">
+            <article class="principle">
+              <span class="number" aria-hidden="true">1</span>
+              <div>
+                <h3>Pilih waktu dan tempat yang tepat</h3>
+                <p>Pastikan percakapan berlangsung dalam suasana yang tenang dan tidak mempermalukan penerima.</p>
+              </div>
+            </article>
+
+            <article class="principle">
+              <span class="number" aria-hidden="true">2</span>
+              <div>
+                <h3>Gunakan contoh yang spesifik</h3>
+                <p>Bahas perilaku atau situasi nyata agar pesan lebih mudah dipahami.</p>
+              </div>
+            </article>
+
+            <article class="principle">
+              <span class="number" aria-hidden="true">3</span>
+              <div>
+                <h3>Berikan ruang untuk berdiskusi</h3>
+                <p>Dengarkan sudut pandang penerima dan sepakati langkah perbaikan bersama.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="membantu">
+      <div class="container">
+        <div class="section-label">Cara menyampaikan</div>
+        <h2 class="section-title">Komunikasi yang Membantu vs Menghambat</h2>
+        <p class="section-lead">
+          Pilihan kata dan cara menyampaikan pesan dapat menentukan apakah umpan balik
+          menjadi peluang belajar atau justru menimbulkan sikap defensif.
+        </p>
+
+        <div class="helpful-content">
+          <div class="quote">
+            “Saya melihat bagian ini masih bisa diperbaiki. Mari kita bahas apa
+            yang bisa dilakukan agar hasil berikutnya lebih baik.”
+          </div>
+
+          <div class="do-grid">
+            <article class="do-card">
+              <h3>✓ Komunikasi yang membantu</h3>
+              <p>Spesifik, objektif, menghargai, fokus pada perilaku, dan menawarkan solusi.</p>
+            </article>
+
+            <article class="do-card">
+              <h3>× Komunikasi yang menghambat</h3>
+              <p>Menghakimi, terlalu umum, menyerang pribadi, dan tidak memberi arah perbaikan.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="practice" id="praktik">
+      <div class="container">
+        <div class="section-label">Latihan singkat</div>
+        <h2 class="section-title">Coba Susun Umpan Balik</h2>
+        <p class="section-lead">
+          Tulis situasi nyata. Gunakan bahasa yang spesifik, objektif,
+          dan berorientasi pada perkembangan.
+        </p>
+
+        <div class="practice-box">
+          <label for="feedback">Situasi / contoh yang ingin disampaikan</label>
+          <textarea id="feedback"
+            placeholder="Contoh: Hasil laporan sudah selesai, tetapi ada beberapa data yang belum diperbarui..."
+            aria-describedby="result"></textarea>
+
+          <button class="primary-button" type="button" onclick="buatUmpanBalik()">
+            Buat Umpan Balik
+          </button>
+
+          <p id="result" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Jadikan setiap umpan balik sebagai awal percakapan.</h2>
+        <p>Komunikasi yang baik membantu tim belajar, berkembang, dan bekerja lebih efektif.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Halaman ini dibuat untuk edukasi tentang komunikasi dalam pemberian umpan balik kinerja.
+  </footer>
+
+  <script>
+    function buatUmpanBalik() {
+      const input = document.getElementById("feedback");
+      const result = document.getElementById("result");
+      const text = input.value.trim();
+
+      if (!text) {
+        result.textContent = "Silakan tuliskan situasi terlebih dahulu.";
+        return;
+      }
+
+      result.textContent =
+        "Contoh pembuka: “Saya mengapresiasi usaha yang sudah dilakukan. Dari situasi tersebut, ada beberapa hal yang bisa kita perbaiki. Mari kita diskusikan langkah berikutnya.”";
+    }
+  </script>
+</body>
+</html>
